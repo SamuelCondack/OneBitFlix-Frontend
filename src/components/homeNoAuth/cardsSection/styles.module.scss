@@ -20,10 +20,12 @@
         font-weight: bold;
         margin-bottom: 8px;
         transition: 0.3s;
+        user-select: none !important;
     }
     .cardDescription{
         font-size: 15px;
         color: $lightGray;
+        user-select: none !important;
     }
     &:hover{
         transform: scale(1.03);
