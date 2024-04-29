@@ -5,7 +5,10 @@ const HomeNotAuth = () => {
   return (
 		<>
 			<Head>
-				<title>Home</title>
+				<title>Onebitflix</title>
+				<link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
+				<meta property="og:title" content="Onebitflix" key="title"/>
+				<meta name="description" content="Have access to the best programming content in a simple and easy way!"/>
 			</Head>
 			<main></main>
 		</>
