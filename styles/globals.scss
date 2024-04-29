@@ -23,3 +23,23 @@ main{
     background: #868686;
     border-radius: 40px;
 }
+
+//Clean blue underline on Links
+a:link {
+    text-decoration: none;
+    color: #cc850a;
+  }
+  
+  a:visited {
+    text-decoration: none;
+    color: #cc850a;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    color: #47a1ad;
+  }
+  
+  a:active {
+    text-decoration: none;
+  }
