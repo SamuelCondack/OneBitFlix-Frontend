@@ -3,25 +3,45 @@ import styles from '../styles/HomeNoAuth.module.scss'
 import HeaderNoAuth from "@/src/components/homeNoAuth/headerNoAuth";
 import PresentationSection from "@/src/components/homeNoAuth/presentationSection";
 import CardsSection from "@/src/components/homeNoAuth/cardsSection";
+import SlideSection from "@/src/components/homeNoAuth/slideSection";
+import { GetStaticProps } from "next";
+import courseService, { CourseType } from "@/src/services/courseService";
+import { ReactNode } from "react";
 
-const HomeNotAuth = () => {
-  return (
+interface IndexPageProps {
+	children?: ReactNode;
+	course: CourseType[];
+}
+
+const HomeNotAuth = ({course}: IndexPageProps) => {
+	return (
 		<>
 			<Head>
 				<title>Onebitflix</title>
 				<link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
-				<meta property="og:title" content="Onebitflix" key="title"/>
-				<meta name="description" content="Have access to the best programming content in a simple and easy way!"/>
+				<meta property="og:title" content="Onebitflix" key="title" />
+				<meta name="description" content="Have access to the best programming content in a simple and easy way!" />
 			</Head>
 			<main>
 				<div className={styles.sectionBackground}>
-					<HeaderNoAuth/>
-					<PresentationSection/>
+					<HeaderNoAuth />
+					<PresentationSection />
 				</div>
-				<CardsSection/>
+				<CardsSection />
+				<SlideSection newestCourses={course} />
 			</main>
 		</>
-  )    
+	)
 };
+
+export const getStaticProps: GetStaticProps = async () => {
+	const res = await courseService.getNewestCourses();
+	return {
+		props: {
+			course: res.data,
+		},
+		revalidate: 3600 * 24,
+	};
+ };
 
 export default HomeNotAuth;
