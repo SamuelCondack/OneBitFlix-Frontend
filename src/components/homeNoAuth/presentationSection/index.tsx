@@ -11,7 +11,7 @@ const PresentationSection = function () {
                     <Col md className='d-flex flex-column justify-content-center align-items-start'>
                         <p className={styles.subTitle}>UNLIMITED ACCESS</p>
                         <p className={styles.title}>Have access to the best <br /> Coding tutorials.</p>
-                        <p className={styles.description}>Study from wherever you are, at any time, and continue <br /> evolving as a Programmer</p>
+                        <p className={styles.description}>Study from wherever you are, at any time, and continue <br /> evolving as a Developer</p>
                         <Link href="/register">
                             <Button outline className={styles.btnCta}>
                                 ACCESS NOW <img src='/buttonPlay.svg' alt='buttonImg' className={styles.btnImg}></img>
