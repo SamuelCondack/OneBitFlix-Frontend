@@ -1,6 +1,6 @@
-import { Button, Container } from "reactstrap";
 import styles from "./styles.module.scss"
 import Link from "next/link";
+import { Container, Button } from "reactstrap";
 
 interface props {
     logoUrl: string;
@@ -8,7 +8,7 @@ interface props {
     btnContent: string;
 }
 
-const HeaderGeneric = function ({logoUrl, btnUrl, btnContent}: props) {
+const HeaderGeneric = function ({ logoUrl, btnUrl, btnContent }: props) {
     return (<>
         <div className={styles.header}></div>
         <Container className={styles.headerContainer}>
