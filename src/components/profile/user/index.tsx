@@ -1,28 +1,74 @@
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import styles from "../../../../styles/profile.module.scss";
+import { FormEvent, useEffect, useState } from "react";
+import profileService from "@/src/services/profileService";
+import ToastComponent from "../../common/toast";
+import { useRouter } from "next/router";
 
 const UserForm = function () {
+  const router = useRouter();
+  const [color, setColor] = useState("");
+  const [toastIsOpen, setToastIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [initialEmail, setInitialEmail] = useState(email);
+
+  useEffect(() => {
+    profileService.fetchCurrent().then((user) => {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+      setPhone(user.phone);
+      setEmail(user.email);
+      setInitialEmail(user.email);
+    });
+  }, []);
+
+  const handleUserUpdate = async function (event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const res = await profileService.userUpdate({
+      firstName,
+      lastName,
+      phone,
+      email,
+    });
+
+    if (res === 200) {
+      setToastIsOpen(true);
+      setErrorMessage("Data Updated!");
+      setColor("bg-success");
+      setTimeout(() => setToastIsOpen(false), 1000 * 3);
+      if (email != initialEmail) {
+        sessionStorage.clear();
+        router.push("/");
+      }
+    } else {
+      setToastIsOpen(true);
+      setErrorMessage("You can't use this email!");
+      setColor("bg-danger");
+      setTimeout(() => setToastIsOpen(false), 1000 * 3);
+    }
+  };
+
   return (
     <>
-      <Form className={styles.form}>
+      <Form onSubmit={handleUserUpdate} className={styles.form}>
         <div className={styles.formName}>
-          <p className={styles.nameAbbreviation}>NT</p>
-          <p className={styles.userName}>NAME TEST</p>
-        </div>
-        <div className={styles.memberTime}>
-          <img
-            className={styles.memberTimeImg}
-            src="/profile/iconUserAccount.svg"
-            alt="iconProfile"
-          />
-          <p className={styles.memberTime}>
-            Member since <br /> April 20, 2020
+          <p className={styles.nameAbbreviation}>
+            {firstName.slice(0, 1)}
+            {lastName.slice(0, 1)}
           </p>
+          <p className={styles.userName}>{`${firstName} ${lastName}`}</p>
         </div>
         <hr />
         <div className={styles.inputFlexDiv}>
           <FormGroup>
-            <Label className={styles.label}  for="firstName">NAME</Label>
+            <Label className={styles.label} for="firstName">
+              NAME
+            </Label>
             <Input
               name="firstName"
               type="text"
@@ -31,11 +77,16 @@ const UserForm = function () {
               required
               maxLength={20}
               className={styles.inputFlex}
-              value={"Name"}
+              value={firstName}
+              onChange={(event) => {
+                setFirstName(event.target.value);
+              }}
             />
           </FormGroup>
           <FormGroup>
-            <Label className={styles.label}  for="lastName">LAST NAME</Label>
+            <Label className={styles.label} for="lastName">
+              LAST NAME
+            </Label>
             <Input
               name="lastName"
               type="text"
@@ -44,13 +95,18 @@ const UserForm = function () {
               required
               maxLength={20}
               className={styles.inputFlex}
-              value={"Test"}
+              value={lastName}
+              onChange={(event) => {
+                setLastName(event.target.value);
+              }}
             />
           </FormGroup>
         </div>
         <div className={styles.inputNormalDiv}>
           <FormGroup>
-            <Label className={styles.label}   for="phone">WHATSAPP / TELEGRAM</Label>
+            <Label className={styles.label} for="phone">
+              WHATSAPP / TELEGRAM
+            </Label>
             <Input
               name="phone"
               type="tel"
@@ -58,27 +114,40 @@ const UserForm = function () {
               placeholder="(xx) 9xxxxx-xxxx"
               required
               className={styles.input}
-              value={"+55 (21) 99999-9999"}
+              value={phone}
+              onChange={(event) => {
+                setPhone(event.target.value);
+              }}
             />
           </FormGroup>
           <FormGroup>
-            <Label className={styles.label} for="email">EMAIL</Label>
+            <Label className={styles.label} for="email">
+              EMAIL
+            </Label>
             <Input
-            name="email"
-            type="email"
-            id="email"
-            placeholder="Insert your email"
-            required
-            className={styles.input}
-            value={"testeemail@gmail.com"}
+              name="email"
+              type="email"
+              id="email"
+              placeholder="Insert your email"
+              required
+              className={styles.input}
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
             />
-        </FormGroup>
+          </FormGroup>
 
-        <Button className={styles.formBtn} outline type="submit">
+          <Button className={styles.formBtn} outline type="submit">
             Save Changes
-        </Button>
+          </Button>
         </div>
       </Form>
+      <ToastComponent
+        color={color}
+        isOpen={toastIsOpen}
+        message={errorMessage}
+      />
     </>
   );
 };
