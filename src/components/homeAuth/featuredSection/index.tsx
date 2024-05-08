@@ -4,18 +4,15 @@ import courseService, { CourseType } from "@/src/services/courseService";
 import HeaderAuth from "../../common/headerAuth";
 import { Button, Container } from "reactstrap";
 import Link from "next/link";
+import PageSpinner from "../../common/spinner";
 
 const FeaturedSection = function () {
   const { data, error } = useSWR("/featured", courseService.getFeaturedCourses);
 
   if (error) return error;
-  if (!data)
-    return (
-      <>
-        <p>loading...</p>
-      </>
-    );
-
+  if (!data) {
+    return <PageSpinner />;
+  }
   return (
     <>
       {
@@ -25,7 +22,7 @@ const FeaturedSection = function () {
               backgroundImage: `linear-gradient(to bottom, #6666661a, #151515), url(${process.env.NEXT_PUBLIC_BASEURL}/${course.thumbnailUrl})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              height: "480px"
+              height: "480px",
             }}
             key={course.id}
           >
