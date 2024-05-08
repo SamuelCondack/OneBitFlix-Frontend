@@ -80,7 +80,7 @@ const PasswordForm = function () {
 
   return (
     <>
-      <Form onSubmit={handlePasswordUpdate} className={styles.specialForm}>
+      <Form onSubmit={handlePasswordUpdate} className={styles.form}>
         <div className={styles.inputNormalDiv}>
           <FormGroup>
             <Label className={styles.label} for="currentPassword">
@@ -141,7 +141,7 @@ const PasswordForm = function () {
             />
           </FormGroup>
         </div>
-        <Button type="submit" className={styles.specialFormBtn} outline>
+        <Button type="submit" className={styles.formBtn} outline>
           Save Changes
         </Button>
       </Form>
