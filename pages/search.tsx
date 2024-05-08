@@ -4,6 +4,9 @@ import HeaderAuth from "@/src/components/common/headerAuth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import courseService, { CourseType } from "@/src/services/courseService";
+import { Container } from "reactstrap";
+import SearchCard from "@/src/components/searchCard";
+import Footer from "@/src/components/common/footer";
 
 const Search = function () {
   const router = useRouter();
@@ -11,9 +14,9 @@ const Search = function () {
   const [searchResult, setSearchResult] = useState<CourseType[]>([]);
 
   const searchCourses = async function () {
-      const res = await courseService.getSearch(searchName);
+    const res = await courseService.getSearch(searchName);
 
-      setSearchResult(res.data.courses);
+    setSearchResult(res.data.courses);
   };
 
   useEffect(() => {
@@ -26,13 +29,24 @@ const Search = function () {
         <title>Onebitflix - {searchName}</title>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
-      <main>
-        <HeaderAuth />
-        {searchResult?.map((course)=>(
-            <div key={course.id}>
-                <p>{course.name}</p>
-            </div>
-        ))}
+      <main className={styles.main}>
+        <div className={styles.headFooterBg}>
+          <HeaderAuth />
+        </div>
+        {searchResult.length >= 1 ? (
+          <div className={styles.searchResult}>
+            <Container className="d-flex flex-wrap justify-content-center gap-5 py-4">
+              {searchResult?.map((course) => (
+                <SearchCard key={course.id} course={course} />
+              ))}
+            </Container>
+          </div>
+        ) : (
+          <p className={styles.noSearchResult}>No results found</p>
+        )}
+        <div className={styles.headerFooterBg}>
+          <Footer />
+        </div>
       </main>
     </>
   );

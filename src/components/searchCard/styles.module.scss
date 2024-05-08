@@ -1,0 +1,33 @@
+@import "../../../styles/colors.module.scss";
+.searchCard{
+    width: 320px;
+    height: 345px;
+    border: 1px solid $darkGray;
+    overflow: hidden;
+    text-overflow: clip;
+    cursor: pointer;
+
+    transition: .4s;
+    &:hover{
+        border-color: $lightRed;
+        height: 400px;
+    }
+}
+.searchResult{
+    flex: 1 0 auto;
+}
+.searchImg{
+    width: 100%;
+    height: 100px;
+}
+.searchCardName{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    color: #fff;
+}
+.searchCardDescription{
+    color: $lightGray;
+    padding: 0px 20px;
+    font-size: 18px;
+}
