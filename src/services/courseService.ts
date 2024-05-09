@@ -14,7 +14,7 @@ export type CourseType = {
   name: string;
   thumbnailUrl: string;
   synopsis: string;
-  espisodes?: EpisodeType[];
+  episodes?: EpisodeType[];
 };
 
 const courseService = {
