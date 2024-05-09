@@ -8,8 +8,8 @@ const FavoriteCategory = function () {
   const { data, error } = useSWR("/favorites", courseService.getFavCourses);
 
   if (error) return error;
-  if (!data){
-    return <PageSpinner />
+  if (!data) {
+    return <PageSpinner />;
   }
   return (
     <>
